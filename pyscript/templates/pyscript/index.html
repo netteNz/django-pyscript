@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -9,6 +10,9 @@
     <title>PyScript in Django with Bootstrap</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <!-- static main.css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    
     <!-- PyScript dependencies -->
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
@@ -16,40 +20,80 @@
   <body>
     <div class="container">
       <!-- packages config -->
-    <py-env>
+      <py-env>
         - numpy
-        - pandas
-        - folium
-    </py-env>
-         
-    <div id="map" style="width: 600px; height: 400px;"></div>
-      <div class="card">
+        - micropip
+      </py-env>
+      
+      <div class="card mt-4">
         <div class="card-body">
-          <h1>Welcome to Leaflet in Django</h1>
-          <div id="map" style="width: 600px; height: 400px;">
-    </div>
-    <script>
-        var map = L.map('map').setView([18.2208, -66.5901], 13);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        L.marker([18.2208, -66.5901]).addTo(map)
-            .bindPopup('A marker on Puerto Rico.')
-            .openPopup();
-    </script>    
-
-    <div id="output">
-      <h2>Output</h2>
-      <div class="container">            
-        <py-script>
-        import pyodide_js
-        await pyodide_js.loadPackage('pandas, numpy, folium')
-        
-        pr = folium.Map(location=[18.2208, -66.5901], zoom_start=9, tiles='cartodbdark_matter')
-            </py-script></div>
-  </div>
+          <h1>Visualizing Puerto Rico's Earthquake Activity during the year 2019</h1>
+          
+          <h2>Map</h2>
+          <div id="output">
+            <py-script>
+              import micropip
+              from js import fetch
+              import json
+              from js import document
+            
+              async def main():
+                  await micropip.install(['pandas', 'folium'])
+                  import pandas as pd
+                  import folium
+            
+                  # Fetch JSON data
+                  response = await fetch("{% static 'query.json' %}")
+                  json_data = await response.json()
+                  
+                  # Ensure the JSON data is correctly formatted
+                  data = json.loads(json_data)
+                  
+                  # Convert JSON to DataFrame
+                  df = pd.DataFrame(data)
+            
+                  # Sort DataFrame
+                  df.sort_index(inplace=True)
+            
+                  # Create a map using Folium
+                  pr = folium.Map(location=[18.2208, -66.5901], zoom_start=9, tiles='cartodbdark_matter', prefer_canvas=True)
+                  
+                  # Define a function to get color based on magnitude
+                  def get_color(magnitude):
+                      if magnitude >= 6:
+                          return '#ff0000'  # Red for high magnitude
+                      elif magnitude >= 5:
+                          return '#ff7f00'  # Orange for medium-high magnitude
+                      elif magnitude >= 4:
+                          return '#ffff00'  # Yellow for medium magnitude
+                      else:
+                          return '#00ff00'  # Green for low magnitude
+            
+                  # Add markers to the map
+                  for index, row in df.iterrows():
+                      folium.CircleMarker(
+                          location=(row['latitude'], row['longitude']),
+                          radius=row['mag'] * 1.8,  # Scale the radius
+                          color=get_color(row['mag']),
+                          fill=True,
+                          fill_color=get_color(row['mag']),
+                          fill_opacity=0.6,
+                          popup=f"Place: {row['place']}<br>Magnitude: {row['mag']}<br>Time: {row['time']}",
+                      ).add_to(pr)
+            
+                  # Generate the map HTML
+                  map_html = pr._repr_html_()
+                  
+                  # Insert the map HTML into the output div
+                  output_div = document.getElementById('output')
+                  output_div.innerHTML = map_html
+            
+              # Schedule the coroutine
+              import asyncio
+              asyncio.ensure_future(main())
+            </py-script>
+            
+          </div>
         </div>
       </div>
     </div>
