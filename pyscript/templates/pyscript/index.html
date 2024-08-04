@@ -1,35 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>PyScript in Django with Bootstrap</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <!-- PyScript dependencies -->
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1 class="text-center my-4">Welcome to PyScript in Django</h1>
-        <div class="card">
-            <div class="card-body">
-                <py-script>
-                    import random
+      <!-- packages config -->
+    <py-env>
+        - numpy
+        - pandas
+        - folium
+    </py-env>
+         
+    <div id="map" style="width: 600px; height: 400px;"></div>
+      <div class="card">
+        <div class="card-body">
+          <h1>Welcome to Leaflet in Django</h1>
+          <div id="map" style="width: 600px; height: 400px;">
+    </div>
+    <script>
+        var map = L.map('map').setView([18.2208, -66.5901], 13);
 
-                    def random_number():
-                        return random.randint(1, 100)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-                    display(f'Random number: {random_number()}')
-                </py-script>
-            </div>
+        L.marker([18.2208, -66.5901]).addTo(map)
+            .bindPopup('A marker on Puerto Rico.')
+            .openPopup();
+    </script>    
+
+    <div id="output">
+      <h2>Output</h2>
+      <div class="container">            
+        <py-script>
+        import pyodide_js
+        await pyodide_js.loadPackage('pandas, numpy, folium')
+        
+        pr = folium.Map(location=[18.2208, -66.5901], zoom_start=9, tiles='cartodbdark_matter')
+            </py-script></div>
+  </div>
         </div>
+      </div>
     </div>
 
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+  </body>
 </html>
