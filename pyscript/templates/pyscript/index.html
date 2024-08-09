@@ -10,73 +10,105 @@
     <title>PyScript in Django with Bootstrap</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <!-- static main.css -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     
     <!-- PyScript dependencies -->
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!-- AOS CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <style>
         body {
-            font-family: FiraCode, sans-serif;
+            font-family: 'Fira Code', sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
+            height: 100vh;
+            background: linear-gradient(120deg, #1a1a40, #000033, #1a1a40, #000033);
+            background-size: 300% 300%;
+            animation: gradientBG 10s ease infinite;
+            color: #ffffff;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
         }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .navbar-dark {
             background-color: #333;
         }
-        .dark-mode {
-            background-color: #121212;
-            color: white;
+
+        .container-fluid {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .light-mode {
-            background-color: #f4f4f9;
-            color: black;
-        }
-        .card {
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        .card-title {
-            color: #f4f4f9;
-        }
-        .card-body {
-            background-color: #444;
-            border-radius: 5px;
-        }
-        .thumbnail {
+
+        .content {
+            max-width: 900px;
             width: 100%;
-            height: auto;
-            border-radius: 10px 10px 0 0;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
         }
-        footer {
-            background-color: #333;
-            color: white;
-            padding: 1rem 0;
+
+        h1, h2 {
             text-align: center;
-            margin-top: auto;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-in-out;
         }
+
+        #output {
+            width: 100%;
+            height: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 2s ease-in-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer Styles */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: none;
+            padding: 10px 0;
+            z-index: 1000; /* Ensure it's above other content */
+        }
+
         footer a {
-            color: white;
-            margin: 0 10px;
-            font-size: 1.5rem;
+            color: #ffffff; /* White color for icons */
+            font-size: 30px; /* Increase the icon size */
+            margin: 0 15px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #f0f0f0; /* Slightly different white on hover */
+            transform: scale(1.2); /* Slightly increase size on hover */
         }
     </style>
   </head>
-  <body class="light-mode">
-    <nav class="navbar navbar-expand-lg navbar-dark">
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top">
       <a class="navbar-brand" href="#">My Portfolio</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -100,83 +132,73 @@
               <i id="theme-icon" class="fas fa-moon"></i>
           </button>
       </div>
-  </nav>
-    <div class="container">
-      <!-- packages config -->
-      <py-env>
-        - numpy
-        - micropip
-      </py-env>
-      
-      <div class="card mt-4">
-        <div class="card-body">
-          <h1>Visualizing Puerto Rico's Earthquake Activity during the year 2019</h1>
+    </nav>
+    <div class="container-fluid">
+      <div class="content">
+        <h1>Visualizing Puerto Rico's Earthquake Activity during the year 2019</h1>
+        <h2>Map</h2>
+        <div id="output">
+          <py-script>
+            import micropip
+            from js import fetch
+            import json
+            from js import document
           
-          <h2>Map</h2>
-          <div id="output">
-            <py-script>
-              import micropip
-              from js import fetch
-              import json
-              from js import document
-            
-              async def main():
-                  await micropip.install(['pandas', 'folium'])
-                  import pandas as pd
-                  import folium
-            
-                  # Fetch JSON data
-                  response = await fetch("{% static 'query.json' %}")
-                  json_data = await response.json()
-                  
-                  # Ensure the JSON data is correctly formatted
-                  data = json.loads(json_data)
-                  
-                  # Convert JSON to DataFrame
-                  df = pd.DataFrame(data)
-            
-                  # Sort DataFrame
-                  df.sort_index(inplace=True)
-            
-                  # Create a map using Folium
-                  pr = folium.Map(location=[18.2208, -66.5901], zoom_start=9, tiles='cartodbdark_matter', prefer_canvas=True)
-                  
-                  # Define a function to get color based on magnitude
-                  def get_color(magnitude):
-                      if magnitude >= 6:
-                          return '#ff0000'  # Red for high magnitude
-                      elif magnitude >= 5:
-                          return '#ff7f00'  # Orange for medium-high magnitude
-                      elif magnitude >= 4:
-                          return '#ffff00'  # Yellow for medium magnitude
-                      else:
-                          return '#00ff00'  # Green for low magnitude
-            
-                  # Add markers to the map
-                  for index, row in df.iterrows():
-                      folium.CircleMarker(
-                          location=(row['latitude'], row['longitude']),
-                          radius=row['mag'] * 1.8,  # Scale the radius
-                          color=get_color(row['mag']),
-                          fill=True,
-                          fill_color=get_color(row['mag']),
-                          fill_opacity=0.6,
-                          popup=f"Place: {row['place']}<br>Magnitude: {row['mag']}<br>Time: {row['time']}",
-                      ).add_to(pr)
-            
-                  # Generate the map HTML
-                  map_html = pr._repr_html_()
-                  
-                  # Insert the map HTML into the output div
-                  output_div = document.getElementById('output')
-                  output_div.innerHTML = map_html
-            
-              # Schedule the coroutine
-              import asyncio
-              asyncio.ensure_future(main())
-            </py-script>
-            
-          </div>
+            async def main():
+                await micropip.install(['pandas', 'folium'])
+                import pandas as pd
+                import folium
+          
+                # Fetch JSON data
+                response = await fetch("{% static 'query.json' %}")
+                json_data = await response.json()
+                
+                # Ensure the JSON data is correctly formatted
+                data = json.loads(json_data)
+                
+                # Convert JSON to DataFrame
+                df = pd.DataFrame(data)
+          
+                # Sort DataFrame
+                df.sort_index(inplace=True)
+          
+                # Create a map using Folium
+                pr = folium.Map(location=[18.2208, -66.5901], zoom_start=9, tiles='cartodbdark_matter', prefer_canvas=True)
+                
+                # Define a function to get color based on magnitude
+                def get_color(magnitude):
+                    if magnitude >= 6:
+                        return '#ff0000'  # Red for high magnitude
+                    elif magnitude >= 5:
+                        return '#ff7f00'  # Orange for medium-high magnitude
+                    elif magnitude >= 4:
+                        return '#ffff00'  # Yellow for medium magnitude
+                    else:
+                        return '#00ff00'  # Green for low magnitude
+          
+                # Add markers to the map
+                for index, row in df.iterrows():
+                    folium.CircleMarker(
+                        location=(row['latitude'], row['longitude']),
+                        radius=row['mag'] * 1.8,  # Scale the radius
+                        color=get_color(row['mag']),
+                        fill=True,
+                        fill_color=get_color(row['mag']),
+                        fill_opacity=0.6,
+                        popup=f"Place: {row['place']}<br>Magnitude: {row['mag']}<br>Time: {row['time']}",
+                    ).add_to(pr)
+          
+                # Generate the map HTML
+                map_html = pr._repr_html_()
+                
+                # Insert the map HTML into the output div
+                output_div = document.getElementById('output')
+                output_div.innerHTML = map_html
+          
+            # Schedule the coroutine
+            import asyncio
+            asyncio.ensure_future(main())
+          </py-script>
         </div>
       </div>
     </div>
@@ -185,6 +207,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <footer>
       <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn">
           <i class="fab fa-linkedin"></i>
@@ -195,7 +218,7 @@
       <a href="https://www.instagram.com" target="_blank" aria-label="Instagram">
           <i class="fab fa-instagram"></i>
       </a>
-  </footer>
+    </footer>
 
   <!-- Bootstrap JS and dependencies -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
