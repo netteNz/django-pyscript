@@ -3,26 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
     <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <!-- AOS CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <title>Retrowave Website</title>
     <style>
         body {
             font-family: FiraCode, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            height: 100vh;
             background: linear-gradient(120deg, #1a1a40, #000033, #1a1a40, #000033);
             background-size: 300% 300%;
             animation: gradientBG 10s ease infinite;
         }
+        
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -44,174 +41,53 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
-        }
-        .navbar-dark {
-            background-color: #333;
-        }
-        .dark-mode {
-            background-color: #121212;
-            color: white;
-        }
-        .light-mode {
-            background-color: #f4f4f9;
-            color: black;
-        }
-        .card {
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 10px;
-        }
-        .card-title {
-            color: #f4f4f9;
-        }
-        .card-body {
-            background-color: #444;
-            border-radius: 10px;
-        }
-        .thumbnail {
-            width: 100%;
-            height: auto;
-            border-radius: 10px 10px 0 0;
-        }
-        footer {
-            background-color: #333;
-            color: white;
-            padding: 1rem 0;
-            text-align: center;
-            margin-top: auto;
-        }
-        footer a {
-            color: white;
-            margin: 0 10px;
-            font-size: 1.5rem;
-        }
-    </style>
+        }        
+    </style>        
 </head>
-<body class="light-mode">
-    <nav class="navbar navbar-expand-lg navbar-dark">
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transperant fixed-top">
+      <div class="container-fluid">
         <a class="navbar-brand" href="#">My Portfolio</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-            </ul>
-            <button id="theme-toggle" class="btn btn-outline-light ml-3">
-                <i id="theme-icon" class="fas fa-moon"></i>
-            </button>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+          <button id="theme-toggle" class="btn btn-outline-light ml-3"><i id="theme-icon" class="fas fa-moon"></i></button>
         </div>
+      </div>
     </nav>
 
-    <div class="container text-center mt-5">
-        <h1>My Portfolio</h1>
-        <p>Accelerator Program support may be financial and/or provision of other resources.</p>
-    </div>
+    <!-- Your website content here -->
+    <div class="header"></div>
+    
+    <!-- Your sections -->
+    <section class="container-fluid"></section>
 
-    <div class="container mt-5" data-aos="fade-up">
-        <div class="row">
-            <div class="col-md-4 mb-4" data-aos="fade-up">
-                <div class="card">
-                    <img src="https://via.placeholder.com/150" alt="Project 1 Thumbnail" class="thumbnail">
-                    <div class="card-body">
-                        <h5 class="card-title">Adopting PyScript into Django</h5>
-                        <a href="/pyscript" target="_blank">View Project</a>
-                        <p class="card-text">Testing the capabilities of pyscript while showcasing a Jupyter Notebook</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="card">
-                    <img src="https://via.placeholder.com/150" alt="Project 2 Thumbnail" class="thumbnail">
-                    <div class="card-body">
-                        <h5 class="card-title">Project 2</h5>
-                        <p class="card-text">Description of Project 2.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-                <div class="card">
-                    <img src="https://via.placeholder.com/150" alt="Project 3 Thumbnail" class="thumbnail">
-                    <div class="card-body">
-                        <h5 class="card-title">Project 3</h5>
-                        <p class="card-text">Description of Project 3.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
-                <div class="card">
-                    <img src="https://via.placeholder.com/150" alt="Project 4 Thumbnail" class="thumbnail">
-                    <div class="card-body">
-                        <h5 class="card-title">Project 4</h5>
-                        <p class="card-text">Description of Project 4.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="400">
-                <div class="card">
-                    <img src="https://via.placeholder.com/150" alt="Project 5 Thumbnail" class="thumbnail">
-                    <div class="card-body">
-                        <h5 class="card-title">Project 5</h5>
-                        <p class="card-text">Description of Project 5.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="500">
-                <div class="card">
-                    <img src="https://via.placeholder.com/150" alt="Project 6 Thumbnail" class="thumbnail">
-                    <div class="card-body">
-                        <h5 class="card-title">Project 6</h5>
-                        <p class="card-text">Description of Project 6.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Footer -->
     <footer>
-        <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn">
-            <i class="fab fa-linkedin"></i>
-        </a>
-        <a href="https://www.github.com" target="_blank" aria-label="GitHub">
-            <i class="fab fa-github"></i>
-        </a>
-        <a href="https://www.instagram.com" target="_blank" aria-label="Instagram">
-            <i class="fab fa-instagram"></i>
-        </a>
+      <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.github.com" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://www.instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
     </footer>
-
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- AOS JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script>
-        AOS.init();
-        const toggleButton = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
-        const body = document.body;
-        toggleButton.addEventListener('click', function() {
-            if (body.classList.contains('light-mode')) {
-                body.classList.replace('light-mode', 'dark-mode');
-                themeIcon.classList.replace('fa-moon', 'fa-sun');
-            } else {
-                body.classList.replace('dark-mode', 'light-mode');
-                themeIcon.classList.replace('fa-sun', 'fa-moon');
-            }
-        });
-    </script>
 </body>
 </html>
+
+
+
+
+
+
+
