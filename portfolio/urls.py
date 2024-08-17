@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('landing.urls')),
     path('pyscript/', include('pyscript.urls')),
+    path('blog/', include('blog.urls')),
 ]
 

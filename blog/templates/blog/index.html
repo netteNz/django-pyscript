@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retrowave Website</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <!-- AOS CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <style>
+      body {
+        font-family: 'Fira Code', sans-serif;
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(120deg, #1a1a40, #000033, #1a1a40, #000033);
+        background-size: 300% 300%;
+        animation: gradientBG 10s ease infinite;
+      }
+      
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      
+      .header {
+        width: 100%;
+        height: 100vh;
+        background: url('your-image-path.jpg') no-repeat center center/cover;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #ffffff;
+      }
+      
+      .header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+      }
+      
+      .hero-content {
+        position: relative;
+        z-index: 1;
+      }
+      
+      .hero-content h1 {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        animation: fadeInUp 1s ease-in-out;
+      }
+      
+      .hero-content p {
+        font-size: 1.5rem;
+        margin-bottom: 40px;
+        animation: fadeInUp 1.5s ease-in-out;
+      }
+      
+      .hero-content .btn {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+        animation: fadeInUp 2s ease-in-out;
+      }
+      
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      /* Footer Styles */
+      footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: none;
+        padding: 10px 0;
+        z-index: 1000; /* Ensure it's above other content */
+      }
+      
+      footer a {
+        color: #ffffff; /* White color for icons */
+        font-size: 30px; /* Increase the icon size */
+        margin: 0 15px;
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+      
+      footer a:hover {
+        color: #f0f0f0; /* Slightly different white on hover */
+        transform: scale(1.2); /* Slightly increase size on hover */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">netteNz Portfolio</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav justify-content-center w-100">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+          <button id="theme-toggle" class="btn btn-outline-light ml-3"><i id="theme-icon" class="fas fa-moon"></i></button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="header">
+      <div class="hero-content" data-aos="fade-up">
+        {% block page_title %}
+        <h2>Blog Posts</h2>
+        {% endblock page_title %}
+        {% block page_content %}
+        {% block posts %}
+           {% for post in posts %}
+           <h3><a href="{% url 'blog_detail' post.pk %}">{{ post.title }}</a></h3>
+           <small>{{ post.created_on.date }} | Categories:
+            {% for category in categories.all %}
+            <a href="{% url 'blog_category' category.name %}">
+                {{ category.name }}
+            </a>
+            {% endfor %}
+           </small>
+           <p>{{ post.body | slice:"400" }}...</p>
+             {% endfor %}
+          {% endblock posts %}
+        {% endblock page_content %}
+        
+      </div>
+    </div>
+
+    <!-- Content Sections -->
+    
+
+      <!-- Add your sections here -->
+
+    
+
+    <!-- Footer -->
+    <footer>
+      <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.github.com" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://www.instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+      AOS.init()
+    </script>
+  </body>
+</html>
