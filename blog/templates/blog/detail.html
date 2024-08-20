@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+    <!-- Include PyScript -->
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+</head>
+<body>
+
 {% block page_title %}
     <h2>{{ post.title }}</h2>
 {% endblock page_title %}
@@ -11,5 +23,13 @@
             </a>
         {% endfor %}
     </small>
-    <p>{{ post.body | linebreaks }}</p>
+
+    
+    <!-- Use the safe filter to allow HTML and scripts to be rendered -->
+    <div>
+        {{ post.body|safe }}
+    </div>
 {% endblock page_content %}
+
+</body>
+</html>

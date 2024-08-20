@@ -22,5 +22,6 @@ urlpatterns = [
     path('', include('landing.urls')),
     path('pyscript/', include('pyscript.urls')),
     path('blog/', include('blog.urls')),
+    path('tinymce/', include('tinymce.urls')),
 ]
 

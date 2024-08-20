@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Retrowave Website</title>
+    <title>netteNz Portfolio</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Font Awesome -->
@@ -11,13 +11,17 @@
     <!-- AOS CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
     <style>
-      body {
+      /* Your custom styles */
+      body,
+      html {
         font-family: 'Fira Code', sans-serif;
         margin: 0;
         height: 100vh;
-        background: linear-gradient(120deg, #1a1a40, #000033, #1a1a40, #000033);
+        background: linear-gradient(120deg, #0a0a28, #000011, #0a0a28, #000011);
         background-size: 300% 300%;
         animation: gradientBG 10s ease infinite;
+        color: #ffffff;
+        background-color: transparent; /* Ensures the body is transparent */
       }
       
       @keyframes gradientBG {
@@ -129,10 +133,7 @@
               <a class="nav-link" href="#">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Blog</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" href="/blog">Blog</a>
             </li>
           </ul>
           <button id="theme-toggle" class="btn btn-outline-light ml-3"><i id="theme-icon" class="fas fa-moon"></i></button>

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'pyscript',
     'landing',
     'blog',
+    'tinymce',
 ]
 
 MIDDLEWARE = [

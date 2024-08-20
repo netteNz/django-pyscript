@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Retrowave Website</title>
+    <title>netteNz Portfolio</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Font Awesome -->
@@ -11,13 +11,17 @@
     <!-- AOS CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
     <style>
-      body {
+      /* Your custom styles */
+      body,
+      html {
         font-family: 'Fira Code', sans-serif;
         margin: 0;
         height: 100vh;
-        background: linear-gradient(120deg, #1a1a40, #000033, #1a1a40, #000033);
+        background: linear-gradient(120deg, #0a0a28, #000011, #0a0a28, #000011);
         background-size: 300% 300%;
         animation: gradientBG 10s ease infinite;
+        color: #ffffff;
+        background-color: transparent; /* Ensures the body is transparent */
       }
       
       @keyframes gradientBG {
@@ -118,12 +122,12 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">netteNz Portfolio</a>
+        <a class="navbar-brand" href="/">netteNz Portfolio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav justify-content-center w-100">
             <li class="nav-item">
-              <a class="nav-link" href="#">Home</a>
+              <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">About</a>
@@ -144,33 +148,23 @@
     <div class="header">
       <div class="hero-content" data-aos="fade-up">
         {% block page_title %}
-        <h2>Blog Posts</h2>
-        {% endblock page_title %}
+          <h2>Projects</h2>
+        {% endblock %}
         {% block page_content %}
-        {% block posts %}
-           {% for post in posts %}
-           <h3><a href="{% url 'blog_detail' post.pk %}">{{ post.title }}</a></h3>
-           <small>{{ post.created_on.date }} | Categories:
-            {% for category in categories.all %}
-            <a href="{% url 'blog_category' category.name %}">
-                {{ category.name }}
-            </a>
+          {% block posts %}
+            {% for post in posts %}
+              <h3><a href="{% url 'blog_detail' post.pk %}">{{ post.title }}</a></h3>
+              <small>
+                {{ post.created_on.date }} | Categories:{% for category in categories.all %}
+                  <a href="{% url 'blog_category' category.name %}">{{ category.name }}</a>
+                {% endfor %}
+              </small>
+              <p>{{ post.body|slice:'400' }}...</p>
             {% endfor %}
-           </small>
-           <p>{{ post.body | slice:"400" }}...</p>
-             {% endfor %}
-          {% endblock posts %}
-        {% endblock page_content %}
-        
+          {% endblock %}
+        {% endblock %}
       </div>
     </div>
-
-    <!-- Content Sections -->
-    
-
-      <!-- Add your sections here -->
-
-    
 
     <!-- Footer -->
     <footer>

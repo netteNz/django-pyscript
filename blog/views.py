@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from blog.models import Post, Comment
+from django.templatetags.static import static
 
 def blog_index(request):
     posts = Post.objects.all().order_by('-created_on')
+    static_url = static('query.json')
     context = {
         "posts": posts,
     }
