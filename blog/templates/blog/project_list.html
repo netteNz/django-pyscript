@@ -1,0 +1,61 @@
+<!-- blog/templates/blog/project_list.html -->
+
+<section id="portfolio" class="container mt-5">
+    <div class="row" id="project-container">
+      {% for project in projects %}
+      <div class="col-md-4 mb-4 project-card" data-aos="fade-up">
+        <div class="card">
+          <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ project.title }}</h5>
+            <p class="card-text">{{ project.description }}</p>
+            <a href="{{ project.url }}" class="btn btn-primary" target="_blank">View Project</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center">
+      <button id="load-more" class="btn btn-primary mt-4">Load More</button>
+    </div>
+  </section>
+  
+  <!-- JavaScript for Load More -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      let currentPage = 1;
+      const loadMoreButton = document.getElementById('load-more');
+  
+      loadMoreButton.addEventListener('click', function () {
+        currentPage++;
+        fetch(`/blog/projects/?page=${currentPage}`, {
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.projects.length === 0) {
+            loadMoreButton.style.display = 'none';
+          } else {
+            data.projects.forEach(project => {
+              const projectCard = `
+                <div class="col-md-4 mb-4 project-card" data-aos="fade-up">
+                  <div class="card">
+                    <img src="${project.image}" class="card-img-top" alt="${project.title}">
+                    <div class="card-body">
+                      <h5 class="card-title">${project.title}</h5>
+                      <p class="card-text">${project.description}</p>
+                      <a href="${project.url}" class="btn btn-primary" target="_blank">View Project</a>
+                    </div>
+                  </div>
+                </div>`;
+              document.getElementById('project-container').insertAdjacentHTML('beforeend', projectCard);
+            });
+            AOS.refresh(); // Reinitialize AOS for new content
+          }
+        });
+      });
+    });
+  </script>
+  
